@@ -46,7 +46,8 @@
 
 <p>In this post I'll be using Python Evolutionary Algorithms (<a href="peas">https://github.com/noio/peas</a>) produced by Thomas Van Der Berg.</p>
 
-<p><strong>Space Filling Curves</strong></p>
+<h2>
+<a id="space-filling-curves" class="anchor" href="#space-filling-curves" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Space Filling Curves</h2>
 
 <p>We'll be using different space filling curves to renumber the nodes of a HyperNEAT substrate. By default, HyperNEAT implementations usually create an adjacency matrix using a substrate numbered in row-col order like so.</p>
 
@@ -120,8 +121,12 @@
 
 <p>One thing I didn't expect was for the quadrants to be inverted and rotated. I intended for the Symmetrical Z-order curve to fix this kind of rotation so I don't know why exactly it's happening. It could be that my orientation of the substrate is wrong. Originally, I intended for CAMPNs to include a rotation node, so I don't see this as a show stopper. I may decide to re-include the rotation type of node.</p>
 
-<p>***Conclusion
-These results make me hopeful for CAMPNs. If the HyperNEAT substrates can easily be created using a Kronecker operation it necessarily follows that CAMPNs can create similar substrates to CPPNs.</p>
+<p>Also, as a side note -I didn't see any fracturing in the HyperNEAT substrates. Thomas Van Der Berg and Whiteson claimed that HyperNEAT hard a difficult time in fractured domains (<a href="http://eplex.cs.ucf.edu/papers/stanley_ucftr13-05.pdf">http://eplex.cs.ucf.edu/papers/stanley_ucftr13-05.pdf</a>) but Stanley, Clune, and friends proved that Van Der Berg's hypothesis was wrong (<a href="http://eplex.cs.ucf.edu/papers/stanley_ucftr13-05.pdf">http://eplex.cs.ucf.edu/papers/stanley_ucftr13-05.pdf</a>). I am beginning to wonder if there is a problem with the peas implementation of HyperNEAT though I had a difficult experience trying to comb through the code.</p>
+
+<h2>
+<a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Conclusion</h2>
+
+<p>These results make me hopeful for CAMPNs. If the HyperNEAT substrates can easily be created using a Kronecker operation it necessarily follows that CAMPNs can create similar substrates to CPPNs.</p>
 
 <p>If you have any question or need clarification on something, don't hesitate to contact me at <a href="mailto:stefano.r.palmieri@gmail.com">stefano.r.palmieri@gmail.com</a></p>
       </section>
