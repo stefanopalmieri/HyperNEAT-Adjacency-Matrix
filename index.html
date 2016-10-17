@@ -1,37 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
     <title>Hyperneat-adjacency-matrix by stefanopalmieri</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
-    <div id="container">
-      <div class="inner">
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-        <header>
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
           <h1>Hyperneat-adjacency-matrix</h1>
-          <h2>An analysis of HyperNEAT adjacency matrices using various space filling curves.</h2>
-        </header>
+          <p>An analysis of HyperNEAT adjacency matrices using various space filling curves.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/stefanopalmieri">stefanopalmieri</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
-        <hr>
-
-        <section id="main_content">
-          <p>HyperNEAT is a well known Neuro-Evolution algorithm developed by Kenneth Stanley. HyperNEAT uses an indirect encoding called a Compositional Pattern Producing Network (CPPN) as the genotype. The CPPN is queried with substrate node coordinates to produce a connectivity pattern for the phenotype. This post will be analyzing the adjacency matrices that are produced when different space-filling curves are used to number the substrate nodes instead of ordering them by row-col order.</p>
+        <p>HyperNEAT is a well known Neuro-Evolution algorithm developed by Kenneth Stanley. HyperNEAT uses an indirect encoding called a Compositional Pattern Producing Network (CPPN) as the genotype. The CPPN is queried with substrate node coordinates to produce a connectivity pattern for the phenotype. This post will be analyzing the adjacency matrices that are produced when different space-filling curves are used to number the substrate nodes instead of ordering them by row-col order.</p>
 
 <p>The reason for looking at the adjacency matrices of HyperNEAT in this way is to compare and contrast them to the adjacency matrices created by Compositional Adjacency Matrix Producing Networks (CAMPN). CAMPNs is an indirect encoding that directly produces an adjacency matrix without having to repeatedly query the genotype using coordinates. In fact, CAMPNs don't use spatial coordinates at all. Instead, substrate nodes are numbered using a space filling curve, which allows for locality to be preserved if the number of nodes in the substrate is to grow, as in ES-HyperNEAT. CAMPNs can be restricted from growing by limiting the number of Kronecker type nodes and in doing so, acts more like regular HyperNEAT where the substrate doesn't evolve.</p>
 
@@ -48,15 +55,50 @@
 <p>Instead, we could use a <a href="https://www.youtube.com/watch?v=DuiryHHTrjU">space filling curve</a> such as the <a href="https://en.wikipedia.org/wiki/Z-order_curve">Z-order curve</a> to renumber the substrate.</p>
 
 <p><img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/z-order-substrate.png?raw=true" alt="Z-order of HyperNEAT substrate"></p>
-        </section>
 
-        <footer>
-          Hyperneat-adjacency-matrix is maintained by <a href="https://github.com/stefanopalmieri">stefanopalmieri</a><br>
-          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
+<p>I'll create a mapping from the row-col order to the Z-order using some python code. This will help us later when we need to convert the HyperNEAT substrates to use a space-filling curve order.</p>
 
-        
-      </div>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">def</span> <span class="pl-en">unpart1by1</span>(<span class="pl-smi">n</span>):
+    n <span class="pl-k">&amp;=</span> <span class="pl-c1"><span class="pl-k">0x</span>55555555</span>
+    n <span class="pl-k">=</span> (n <span class="pl-k">^</span> (n <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">1</span>)) <span class="pl-k">&amp;</span> <span class="pl-c1"><span class="pl-k">0x</span>33333333</span>
+    n <span class="pl-k">=</span> (n <span class="pl-k">^</span> (n <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">2</span>)) <span class="pl-k">&amp;</span> <span class="pl-c1"><span class="pl-k">0x</span>0f0f0f0f</span>
+    n <span class="pl-k">=</span> (n <span class="pl-k">^</span> (n <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">4</span>)) <span class="pl-k">&amp;</span> <span class="pl-c1"><span class="pl-k">0x</span>00ff00ff</span>
+    n <span class="pl-k">=</span> (n <span class="pl-k">^</span> (n <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">8</span>)) <span class="pl-k">&amp;</span> <span class="pl-c1"><span class="pl-k">0x</span>0000ffff</span>
+    <span class="pl-k">return</span> n
+
+
+<span class="pl-k">def</span> <span class="pl-en">deinterleave2</span>(<span class="pl-smi">n</span>):
+    <span class="pl-k">return</span> unpart1by1(n <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">1</span>), unpart1by1(n)
+
+<span class="pl-c"># Creates a mapping from row-col order to Z-order</span>
+<span class="pl-c1">map</span> <span class="pl-k">=</span> {}
+<span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">range</span>(<span class="pl-c1">0</span>, <span class="pl-c1">16</span>):
+    xpos, ypos <span class="pl-k">=</span> deinterleave2(i)
+    <span class="pl-c1">map</span>[ypos<span class="pl-k">*</span><span class="pl-c1">4</span> <span class="pl-k">+</span> xpos] <span class="pl-k">=</span> i</pre></div>
+
+<p>I will also use a space filling curve I've been calling the Symmetric Z order curve. It looks like this.</p>
+
+<p><img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/symmetric-z-order-substrate.png?raw=true" alt="Symmetric Z order substrate"></p>
+
+<p>The Symmetric Z-order curve uses similar code to the Z-order curve but has a strange bit operator function that I've called "twirl" for lack of a better name. Note that the Symmetric Z-order curve can be generalized to a higher number of nodes just like the Z-order curve can.</p>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">def</span> <span class="pl-en">twirl</span>(<span class="pl-smi">n</span>):
+    mask <span class="pl-k">=</span> <span class="pl-c1"><span class="pl-k">0x</span>80000000</span>
+
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">range</span>(<span class="pl-c1">0</span>, <span class="pl-c1">15</span>):
+        n <span class="pl-k">=</span> n <span class="pl-k">^</span> ((n <span class="pl-k">&amp;</span> (mask <span class="pl-k">&gt;&gt;</span> (<span class="pl-c1">2</span> <span class="pl-k">*</span> i <span class="pl-k">+</span> <span class="pl-c1">1</span>))) <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">1</span>)
+        n <span class="pl-k">=</span> n <span class="pl-k">^</span> ((n <span class="pl-k">&amp;</span> (mask <span class="pl-k">&gt;&gt;</span> (<span class="pl-c1">2</span> <span class="pl-k">*</span> i))) <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">2</span>)
+
+    <span class="pl-k">return</span> n
+
+<span class="pl-c1">map</span> <span class="pl-k">=</span> {}
+<span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">range</span>(<span class="pl-c1">0</span>, <span class="pl-c1">16</span>):
+    xpos, ypos <span class="pl-k">=</span> deinterleave2(twirl(i))
+    <span class="pl-c1">map</span>[ypos<span class="pl-k">*</span><span class="pl-c1">4</span> <span class="pl-k">+</span> xpos] <span class="pl-k">=</span> i</pre></div>
+      </section>
+
     </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
   </body>
 </html>
