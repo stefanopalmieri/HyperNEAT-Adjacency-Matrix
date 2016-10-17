@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Hyperneat-adjacency-matrix by stefanopalmieri</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Hyperneat-adjacency-matrix</h1>
+        <p>An analysis of HyperNEAT adjacency matrices using various space filling curves.</p>
+
+        <p class="view"><a href="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix">View the Project on GitHub <small>stefanopalmieri/HyperNEAT-Adjacency-Matrix</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>HyperNEAT is a well known Neuro-Evolution algorithm developed by Kenneth Stanley. HyperNEAT uses a Compositional Pattern Producing Network (CPPN) as the genotype. The CPPN is queried with substrate node coordinates to produce a connectivity patter for the phenotype. This post will be analyzing the adjacency matrices that are produced when different space-filling curves are used to number the substrate nodes instead of ordering them by row-col order.</p>
+
+<p>The reason for looking at the adjacency matrices of HyperNEAT in this way is to compare and contrast them to the adjacency matrices created by Compositional Adjacency Matrix Producing Networks (CAMPN). CAMPNs is an indirect encoding that directly produces an adjacency matrix without having to query using coordinates. In fact, CAMPNs don't use spatial coordinates at all. Instead, substrate nodes are numbered using a space filling curve, which allows for locality to be preserved if the number of nodes in the substrate is to grow, as in ES-HyperNEAT.</p>
+
+<p>In this post I'll be using Python Evolutionary Algorithms (peas) produced by Thomas Van Der Berg. <code>https://github.com/noio/peas</code></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/stefanopalmieri">stefanopalmieri</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
