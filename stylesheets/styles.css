@@ -54,6 +54,11 @@
        url('../fonts/Noto-Sans-700italic/Noto-Sans-700italic.svg#NotoSans') format('svg');
 }
 
+img {
+  display:block;
+  margin: 0 auto;
+}
+
 body {
   background-color: #fff;
   padding:50px;
