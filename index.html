@@ -100,21 +100,30 @@
 
 <p>Now it's possible to take a look at the Adjacency Matrices when remapped to a space filling curve. I've also included the Hilbert curve to show that the success of the Z-order curves isn't a fluke.</p>
 
-<p><img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/rc-1.png?raw=true" alt="Row Column 1"></p>
+<p>Row Column Order (Original HyperNEAT)
+<img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/rc-1.png?raw=true" alt="Row Column 1"></p>
 
-<p><img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/z-1.png?raw=true" alt="Z Order 1"></p>
+<p>Z Order
+<img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/z-1.png?raw=true" alt="Z Order 1"></p>
 
-<p><img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/sz-1.png?raw=true" alt="Symmetric Z Order 1"></p>
+<p>Symmetric Z Order
+<img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/sz-1.png?raw=true" alt="Symmetric Z Order 1"></p>
 
-<p><img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/hc-1.png?raw=true" alt="Hilbert Curve 1"></p>
+<p>Hilbert Curve
+<img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/hc-1.png?raw=true" alt="Hilbert Curve 1"></p>
 
-<p>This is pretty much what I expected. When a Z-order curve is used to order the adjacency matrix, the quadrants of the adjacency matrix appear similar to each other. It is very common for the top-left quadrant to be similar to the bottom-right quadrant and the top-right quadrant to be similar to the bottom-left quadrant. The reason is because the top-left and bottom-right quadrants contain all the connections within the left and right hemispheres, respectively. Whereas the top-right and bottom-left quadrants contain the interconnections between the hemispheres. This effect can also be seen in large scale anatomical mappings of the human brain.</p>
+<p>This is pretty much what I expected and performing the mappings on different substrates has similar effects. When a Z-order curve is used to order the adjacency matrix, the quadrants of the adjacency matrix appear similar to each other. It is very common for the top-left quadrant to be similar to the bottom-right quadrant and the top-right quadrant to be similar to the bottom-left quadrant. The reason is because the top-left and bottom-right quadrants contain all the connections within the left and right hemispheres, respectively. Whereas the top-right and bottom-left quadrants contain the interconnections between the hemispheres. This effect can also be seen in large scale anatomical mappings of the human brain.</p>
 
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Average_Regional_Connection_Matrix,_Network_Layout,_and_Connectivity_Backbone.png" alt=""></p>
 
 <p><img src="http://www.frontiersin.org/files/Articles/30773/fncom-06-00068-r2/image_m/fncom-06-00068-g001.jpg" alt=""></p>
 
-<p>One thing I didn't expect was for the quadrants to be inverted and rotated. I intended for the Symmetrical Z-order curve to fix this kind of rotation so I don't know why exactly it's happening. It could be that my orientation of the substrate is wrong.</p>
+<p>One thing I didn't expect was for the quadrants to be inverted and rotated. I intended for the Symmetrical Z-order curve to fix this kind of rotation so I don't know why exactly it's happening. It could be that my orientation of the substrate is wrong. Originally, I intended for CAMPNs to include a rotation node, so I don't see this as a show stopper. I may decide to re-include the rotation type of node.</p>
+
+<p>***Conclusion
+These results make me hopeful for CAMPNs. If the HyperNEAT substrates can easily be created using a Kronecker operation it necessarily follows that CAMPNs can create similar substrates to CPPNs.</p>
+
+<p>If you have any question or need clarification on something, don't hesitate to contact me at <a href="mailto:stefano.r.palmieri@gmail.com">stefano.r.palmieri@gmail.com</a></p>
       </section>
 
     </div>
