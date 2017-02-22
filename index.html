@@ -42,22 +42,22 @@
 
 <p>The reason for looking at the adjacency matrices of HyperNEAT in this way is to compare and contrast them to the adjacency matrices created by <a href="http://vixra.org/pdf/1609.0213v1.pdf">Compositional Adjacency Matrix Producing Networks</a> (CAMPN). CAMPNs is an indirect encoding that directly produces an adjacency matrix without having to repeatedly query the genotype using coordinates. In fact, CAMPNs don't use spatial coordinates at all. Instead, substrate nodes are numbered using a space filling curve, which allows for locality to be preserved if the number of nodes in the substrate is to grow, as in ES-HyperNEAT. CAMPNs can be restricted from growing by limiting the number of Kronecker type nodes and in doing so, acts more like regular HyperNEAT where the substrate doesn't evolve.</p>
 
-<p>If the theory behind CAMPNs is correct, changing the ordering of the substrate nodes in HyperNEAT should bring more order and compressibility to the HyperNEAT adjacency matrix. This is what I will be investigating.</p>
+<p>If the theory behind CAMPNs is correct, a CAMPN should be able to produce a substrate resembling a HyperNEAT substrate. This is what I will be investigating.</p>
 
 <p>In this post I'll be using Python Evolutionary Algorithms (<a href="peas">https://github.com/noio/peas</a>) produced by Thomas Van Der Berg.</p>
 
 <h2>
 <a id="space-filling-curves" class="anchor" href="#space-filling-curves" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Space Filling Curves</h2>
 
-<p>We'll be using different space filling curves to renumber the nodes of a HyperNEAT substrate. By default, HyperNEAT implementations usually create an adjacency matrix using a substrate numbered in row-col order like so.</p>
+<p>A CAMPN alone only produce an adjacency matrix but doesn't say which nodes are which within that matrix. To give an order to nodes we could try using row-col order like so.</p>
 
 <p><img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/row-col-substrate.png?raw=true" alt="row-column order of HyperNEAT substrate"></p>
 
-<p>Instead, we could use a <a href="https://www.youtube.com/watch?v=DuiryHHTrjU">space filling curve</a> such as the <a href="https://en.wikipedia.org/wiki/Z-order_curve">Z-order curve</a> to renumber the substrate.</p>
+<p>Instead, we could use a <a href="https://www.youtube.com/watch?v=DuiryHHTrjU">space filling curve</a> such as the <a href="https://en.wikipedia.org/wiki/Z-order_curve">Z-order curve</a> to renumber the substrate. This has the advantage of preserving locality as the substrate size grows.</p>
 
 <p><img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/z-order-substrate.png?raw=true" alt="Z-order of HyperNEAT substrate"></p>
 
-<p>I'll create a mapping from the row-col order to the Z-order using some python code. This will help us later when we need to convert the HyperNEAT substrates to use a space-filling curve order.</p>
+<p>The following code shows how to convert from a row-col ordering to Morton order. This is useful for converting from Cartesian coordinates</p>
 
 <div class="highlight highlight-source-python"><pre><span class="pl-k">def</span> <span class="pl-en">unpart1by1</span>(<span class="pl-smi">n</span>):
     n <span class="pl-k">&amp;=</span> <span class="pl-c1"><span class="pl-k">0x</span>55555555</span>
@@ -99,27 +99,18 @@
 
 <p><strong>HyperNEAT Adjacency Matrices</strong></p>
 
-<p>Now it's possible to take a look at the Adjacency Matrices when remapped to a space filling curve. I've also included the Hilbert curve to show that the success of the Z-order curves isn't a fluke.</p>
+<p>Now let's take a look at what an adjacency matrix for a Hyperneat substrate looks like.</p>
 
 <p>Row Column Order (Original HyperNEAT)
 <img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/rc-1.png?raw=true" alt="Row Column 1"></p>
+        
+<p>This is basically what all the HyperNEAT substrates looked like using peas. Basically a tiling of some motif with some variation. These type of patterns can easily be created with a Kronecker operation between two matrices.<p>
 
-<p>Z Order
-<img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/z-1.png?raw=true" alt="Z Order 1"></p>
-
-<p>Symmetric Z Order
-<img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/sz-1.png?raw=true" alt="Symmetric Z Order 1"></p>
-
-<p>Hilbert Curve
-<img src="https://github.com/stefanopalmieri/HyperNEAT-Adjacency-Matrix/blob/gh-pages/images/hc-1.png?raw=true" alt="Hilbert Curve 1"></p>
-
-<p>This is pretty much what I expected and performing the mappings on different substrates has similar effects. When a Z-order curve is used to order the adjacency matrix, the quadrants of the adjacency matrix appear similar to each other. It is very common for the top-left quadrant to be similar to the bottom-right quadrant and the top-right quadrant to be similar to the bottom-left quadrant. The reason is because the top-left and bottom-right quadrants contain all the connections within the left and right hemispheres, respectively. Whereas the top-right and bottom-left quadrants contain the interconnections between the hemispheres. This effect can also be seen in large scale anatomical mappings of the human brain.</p>
+<p>The reason why the Kronecker operation is interesting is because when a Z-order curve is used to order the adjacency matrix, the quadrants of the adjacency matrix appear similar to each other. It is very common for the top-left quadrant to be similar to the bottom-right quadrant and the top-right quadrant to be similar to the bottom-left quadrant for the adjacency matrices of actual brains. The reason is because the top-left and bottom-right quadrants contain all the connections within the left and right hemispheres, respectively. Whereas the top-right and bottom-left quadrants contain the interconnections between the hemispheres. This effect can also be seen in large scale anatomical mappings of the human brain.</p>
 
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Average_Regional_Connection_Matrix,_Network_Layout,_and_Connectivity_Backbone.png" alt=""></p>
 
 <p><img src="http://www.frontiersin.org/files/Articles/30773/fncom-06-00068-r2/image_m/fncom-06-00068-g001.jpg" alt=""></p>
-
-<p>One thing I didn't expect was for the quadrants to be inverted and rotated. I intended for the Symmetrical Z-order curve to fix this kind of rotation so I don't know why exactly it's happening. It could be that my orientation of the substrate is wrong. Originally, I intended for CAMPNs to include a rotation node, so I don't see this as a show stopper. I may decide to re-include the rotation type of node.</p>
 
 <p>Also, as a side note -I didn't see any fracturing in the HyperNEAT substrates. Thomas Van Der Berg and Whiteson claimed that HyperNEAT had a difficult time in fractured domains (<a href="http://eplex.cs.ucf.edu/papers/stanley_ucftr13-05.pdf">http://eplex.cs.ucf.edu/papers/stanley_ucftr13-05.pdf</a>) but Stanley, Clune, and friends proved that Van Der Berg's hypothesis was wrong (<a href="http://eplex.cs.ucf.edu/papers/stanley_ucftr13-05.pdf">http://eplex.cs.ucf.edu/papers/stanley_ucftr13-05.pdf</a>). I am beginning to wonder if there is a problem with the peas implementation of HyperNEAT though I had a confused experience when trying to comb through the code.</p>
 
